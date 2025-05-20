@@ -1,7 +1,7 @@
 <?php
 $college_id = $_GET['college_id'];
 
-include('db.php');
+include('db_online.php');
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
