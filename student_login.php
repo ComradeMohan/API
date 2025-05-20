@@ -1,11 +1,9 @@
 <?php
 include('db_online.php');
 
-$student_number = $_GET['student_number'] ?? '';
-$password = $_GET['password'] ?? '';
-
 $student_number = $conn->real_escape_string($student_number);
 $password = $conn->real_escape_string($password);
+
 
 $sql = "SELECT * FROM students_new WHERE student_number = '$student_number' AND password = '$password' LIMIT 1";
 $result = $conn->query($sql);
