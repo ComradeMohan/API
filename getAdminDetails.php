@@ -3,17 +3,7 @@
 $admin_id = $_GET['admin_id'];
 
 // Database connection
-$servername = "localhost";  // Your database server
-$username = "root";  // Your database username
-$password = "";  // Your database password
-$dbname = "univalut_db";  // Your database name
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include<'db.php');
 
 // SQL query to fetch admin details
 $sql = "SELECT name, college FROM admins WHERE admin_id = '$admin_id'";
