@@ -1,6 +1,6 @@
 <?php
 // Database connection parameters
-include 'db.php'; // Include your database configuration file
+include 'db_online.php'; // Include your database configuration file
 // Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
