@@ -1,77 +1,55 @@
 <?php
 header('Content-Type: application/json');
 
-// Get college and course from GET parameters
-$college = $_GET['college'] ?? '';
-$course = $_GET['course'] ?? '';
+$college = isset($_GET['college']) ? $_GET['college'] : '';
+$course = isset($_GET['course']) ? $_GET['course'] : '';
 
 if (empty($college) || empty($course)) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Missing required parameters."
-    ]);
+    echo json_encode(["success" => false, "message" => "Missing parameters"]);
     exit;
 }
 
-$owner = 'ComradeMohan';
-$repo = 'API';
+$collegeEncoded = rawurlencode($college);
+$courseEncoded = rawurlencode($course);
 
-// URL encode to handle spaces and special characters
-$collegeEnc = rawurlencode($college);
-$courseEnc = rawurlencode($course);
+$githubApiUrl = "https://api.github.com/repos/ComradeMohan/API/contents/uploads/$collegeEncoded/$courseEncoded";
 
-// GitHub API URL to list contents of the folder for that college and course
-$apiUrl = "https://api.github.com/repos/$owner/$repo/contents/uploads/$collegeEnc/$courseEnc";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $githubApiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'User-Agent: UniValut-App'
+]);
 
-// Setup HTTP headers including User-Agent (required by GitHub)
-$options = [
-    "http" => [
-        "header" => "User-Agent: UniValutApp\r\n"
-    ]
-];
+$response = curl_exec($ch);
 
-$context = stream_context_create($options);
-
-// Fetch contents from GitHub API
-$response = @file_get_contents($apiUrl, false, $context);
-
-if ($response === false) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Failed to fetch data from GitHub API or directory not found"
-    ]);
+if (curl_errno($ch)) {
+    echo json_encode(["success" => false, "message" => "Curl error: " . curl_error($ch)]);
+    curl_close($ch);
     exit;
 }
+
+curl_close($ch);
 
 $data = json_decode($response, true);
 
 if (isset($data['message'])) {
-    // GitHub API error message (e.g., directory doesn't exist)
-    echo json_encode([
-        "success" => false,
-        "message" => $data['message']
-    ]);
+    echo json_encode(["success" => false, "message" => $data['message']]);
     exit;
 }
 
-$files = [];
+$proxyBase = "https://api-9buk.onrender.com/proxy_pdf.php";
+$responseArr = [];
 
 foreach ($data as $file) {
-    // Filter only PDF files
-    if (isset($file['name']) && preg_match('/\.pdf$/i', $file['name'])) {
-        // Construct raw GitHub URL to serve the PDF directly
-        $rawUrl = "https://raw.githubusercontent.com/$owner/$repo/main/uploads/$collegeEnc/$courseEnc/" . rawurlencode($file['name']);
-        
-        $files[] = [
+    if ($file['type'] === 'file') {
+        $responseArr[] = [
             "name" => $file['name'],
-            "url" => $rawUrl,
-            "date" => ""  // GitHub API doesn't provide last modified date here
+            "url" => $proxyBase . "?college=" . rawurlencode($college) . "&course=" . rawurlencode($course) . "&file=" . rawurlencode($file['name']),
+            "size" => $file['size'],
+            "html_url" => $file['html_url']
         ];
     }
 }
 
-echo json_encode([
-    "success" => true,
-    "files" => $files
-]);
-?>
+echo json_encode(["success" => true, "files" => $responseArr]);
