@@ -43,7 +43,8 @@ foreach ($data as $file) {
         // Use GitHub raw file url to serve the PDF directly
         // The raw URL format is:
         // https://raw.githubusercontent.com/{owner}/{repo}/main/{path}
-        $proxyUrl = "https://api-9buk.onrender.com/proxy_pdf.php?college=" . urlencode($college) . "&course=" . urlencode($course) . "&file=" . urlencode($file['name']);
+        $rawUrl = "https://raw.githubusercontent.com/$owner/$repo/main/uploads/$collegeEnc/$courseEnc/" . rawurlencode($file['name']);
+
 
         $files[] = [
             "name" => $file['name'],
