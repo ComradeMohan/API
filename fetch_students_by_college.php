@@ -1,17 +1,7 @@
 <?php
 header("Content-Type: application/json");
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "univalut_db"; // Your database name
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Connection failed"]);
-    exit();
-}
+include('db_online.php');
 
 // Get college from query parameter
 if (!isset($_GET["college"])) {
