@@ -2,17 +2,7 @@
 // faculty_register.php
 header("Content-Type: application/json");
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "univalut_db"; // Change to your database name
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Connection failed"]);
-    exit();
-}
+include('db_online.php');
 
 $data = json_decode(file_get_contents("php://input"), true);
 
