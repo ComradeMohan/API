@@ -1,23 +1,56 @@
 <?php
-$college = $_GET['college'];
-$course = $_GET['course'];
+header('Content-Type: application/json');
 
-$dir = "uploads/$college/$course/";
-$response = [];
+$college = $_GET['college'] ?? '';
+$course = $_GET['course'] ?? '';
 
-if (is_dir($dir)) {
-    $files = array_diff(scandir($dir), ['.', '..']);
-    foreach ($files as $file) {
-        $filePath = $dir . $file;
-        $response[] = [
-            "name" => $file,
-            "url" => "http://192.168.224.54/UniValut/uploads/$college/$course/$file"
-,
-            "date" => date("m/d/Y", filemtime($filePath))
+$owner = 'ComradeMohan';
+$repo = 'API';
+
+// URL encode college and course to handle spaces and special chars
+$collegeEnc = rawurlencode($college);
+$courseEnc = rawurlencode($course);
+
+// GitHub API URL to get contents of folder
+$apiUrl = "https://api.github.com/repos/$owner/$repo/contents/uploads/$collegeEnc/$courseEnc";
+
+$options = [
+    "http" => [
+        "header" => "User-Agent: UniValutApp\r\n"  // required by GitHub API
+    ]
+];
+
+$context = stream_context_create($options);
+$response = @file_get_contents($apiUrl, false, $context);
+
+if ($response === false) {
+    echo json_encode(["success" => false, "message" => "Failed to fetch data from GitHub API or directory not found"]);
+    exit;
+}
+
+$data = json_decode($response, true);
+
+if (isset($data['message'])) {
+    // API returned an error, e.g., path not found
+    echo json_encode(["success" => false, "message" => $data['message']]);
+    exit;
+}
+
+$files = [];
+
+foreach ($data as $file) {
+    if (isset($file['name']) && preg_match('/\.pdf$/i', $file['name'])) {
+        // Use GitHub raw file url to serve the PDF directly
+        // The raw URL format is:
+        // https://raw.githubusercontent.com/{owner}/{repo}/main/{path}
+        $rawUrl = "https://raw.githubusercontent.com/$owner/$repo/main/uploads/$collegeEnc/$courseEnc/" . rawurlencode($file['name']);
+        $files[] = [
+            "name" => $file['name'],
+            "url" => $rawUrl,
+            "date" => ""  // GitHub API doesn't provide last modified date here
         ];
     }
-    echo json_encode(["success" => true, "files" => $response]);
-} else {
-    echo json_encode(["success" => false, "message" => "Directory not found"]);
 }
+
+echo json_encode(["success" => true, "files" => $files]);
 ?>
