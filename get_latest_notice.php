@@ -2,10 +2,7 @@
 header('Content-Type: application/json');
 
 // DB connection
-$conn = new mysqli("localhost", "root", "", "univalut_db");
-if ($conn->connect_error) {
-    die(json_encode(["success" => false, "message" => "Connection failed."]));
-}
+include('db_online.php');
 
 $college = isset($_GET['college']) ? $_GET['college'] : '';
 
