@@ -1,17 +1,6 @@
 <?php
 // Database connection
-$servername = "localhost";
-$username = "root"; // change to your database username
-$password = ""; // change to your database password
-$dbname = "univalut_db"; // change to your database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_online.php');
 
 // Get the admin ID from the GET request
 $adminId = $_GET['admin_id']; // assuming the admin_id is passed as a GET parameter
