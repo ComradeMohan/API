@@ -9,16 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 // DB connection
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "univalut_db";
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Connection failed"]);
-    exit();
-}
+include('db_online.php');
 
 // Read and sanitize input
 $data = json_decode(file_get_contents("php://input"), true);
