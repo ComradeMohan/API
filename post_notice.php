@@ -1,18 +1,6 @@
 <?php
 // Database connection
-$servername = "localhost";
-$username = "root"; // Default XAMPP MySQL username
-$password = ""; // Default XAMPP MySQL password (empty)
-$dbname = "univalut_db";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include('db_online.php');
 // Get POST data
 $title = isset($_POST['title']) ? $_POST['title'] : '';
 $details = isset($_POST['details']) ? $_POST['details'] : '';
