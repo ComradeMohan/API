@@ -17,9 +17,14 @@ $githubApiUrl = "https://api.github.com/repos/ComradeMohan/API/contents/uploads/
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $githubApiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$token = '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'; // Keep it secret
+
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'User-Agent: UniValut-App'
+    'User-Agent: UniValut-App',
+    'Authorization: token ' . $token
 ]);
+
 
 $response = curl_exec($ch);
 
