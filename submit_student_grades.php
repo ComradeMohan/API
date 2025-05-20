@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include 'db_online.php';
 
 $student_id = $_POST['student_id'];
 $course_id = $_POST['course_id'];
