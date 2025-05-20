@@ -3,7 +3,7 @@
 $admin_id = $_GET['admin_id'];
 
 // Database connection
-include('db.php');
+include('db_online.php');
 
 // SQL query to fetch admin details
 $sql = "SELECT name, college FROM admins WHERE admin_id = '$admin_id'";
