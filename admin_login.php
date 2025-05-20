@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-include("db.php");
+include("db_online.php");
 
 $data = json_decode(file_get_contents("php://input"), true);
 $admin_id = $data['student_number'] ?? ''; // same field used in main login
