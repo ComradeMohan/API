@@ -1,5 +1,5 @@
 <?php
-include "db.php";
+include('db_online.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $college_name = $_POST['college_name'];
