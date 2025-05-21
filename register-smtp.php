@@ -61,15 +61,79 @@ if ($conn->query($sql) === TRUE) {
         $mail->isHTML(true);
         $mail->Subject = 'Verify your UniValut Account';
 
-        $verification_link = "http://192.168.224.54/UniValut/verify_email.php?token=" . $verification_token;
+        $verification_link = "https://api-9buk.onrender.com/verify_email.php?token=" . $verification_token;
 
-        $mail->Body = "
-            Hi $full_name,<br><br>
-            Thank you for registering at UniValut.<br>
-            Please verify your email by clicking the link below:<br>
-            <a href='$verification_link'>$verification_link</a><br><br>
-            If you did not register, please ignore this email.
-        ";
+$mail->Body = "
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #007BFF;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 14px 28px;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: #007BFF;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .footer {
+      font-size: 12px;
+      color: #999999;
+      margin-top: 30px;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <h1>Welcome to UniValut, $full_name</h1>
+    <p>Thank you for registering with UniValut. To complete your account setup and access all the features, please verify your email address.</p>
+    <p>
+      <a href='$verification_link' class='button'>Verify Your Email</a>
+    </p>
+    <p>If you did not initiate this registration, please disregard this email. No further action is required.</p>
+    <div class='footer'>
+      &copy; " . date('Y') . " UniValut. All rights reserved.<br>
+      This is an automated message; please do not reply.
+    </div>
+  </div>
+</body>
+</html>
+";
+
 
         $mail->send();
         echo json_encode(["success" => true, "message" => "Registration successful"]);
