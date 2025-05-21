@@ -1,14 +1,5 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "univalut_db";
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed");
-}
-
+include('db_online.php');
 if (isset($_GET['token'])) {
     $token = $conn->real_escape_string($_GET['token']);
     $sql = "SELECT * FROM students_new WHERE verification_token='$token' AND verified=0";
