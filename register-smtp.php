@@ -115,6 +115,9 @@ $mail->Body = "
       border-top: 1px solid #e0e0e0;
       padding-top: 15px;
     }
+    a{
+    color:#fff;
+    }
   </style>
 </head>
 <body>
