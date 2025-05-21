@@ -1,11 +1,6 @@
 <?php
 header('Content-Type: application/json');
-$conn = new mysqli("localhost", "root", "", "univalut_db");
-
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Connection failed"]);
-    exit;
-}
+include('db_online.php');
 
 $result = $conn->query("SELECT id, name FROM colleges");
 
