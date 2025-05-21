@@ -1,5 +1,5 @@
 <?php
-include('db.php');
+include('db_online.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET['college_id'])) {
