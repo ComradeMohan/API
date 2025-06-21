@@ -9,7 +9,12 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 // DB connection
-include('db_online.php');
+include('db.php');
+
+
+
+$expiry_time = date('Y-m-d H:i:s', time() - 3600); // 1 hour ago
+$conn->query("DELETE FROM students_new WHERE verified = 0 AND created_at < '$expiry_time'");
 
 // Read and sanitize input
 $data = json_decode(file_get_contents("php://input"), true);
@@ -23,7 +28,7 @@ $year_of_study = $conn->real_escape_string($data["year_of_study"]);
 $college = $conn->real_escape_string($data["college"]);
 
 // Check if already registered
-$sql_check = "SELECT * FROM students_new WHERE student_number = '$student_number' OR email = '$email'";
+$sql_check = "SELECT * FROM students_new1 WHERE student_number = '$student_number' OR email = '$email'";
 $result = $conn->query($sql_check);
 if ($result->num_rows > 0) {
     echo json_encode(["success" => false, "message" => "Student already exists"]);
@@ -35,7 +40,7 @@ if ($result->num_rows > 0) {
 $verification_token = bin2hex(random_bytes(16));
 
 // Insert student
-$sql = "INSERT INTO students_new (full_name, student_number, email, password, department, year_of_study, college, verification_token, verified)
+$sql = "INSERT INTO students_new1 (full_name, student_number, email, password, department, year_of_study, college, verification_token, verified)
         VALUES ('$full_name', '$student_number', '$email', '$password', '$department', '$year_of_study', '$college', '$verification_token', 0)";
 
 if ($conn->query($sql) === TRUE) {
@@ -55,13 +60,13 @@ if ($conn->query($sql) === TRUE) {
         $mail->CharSet = 'UTF-8';
 
         // From email must be your Gmail or domain-authorized email
-        $mail->setFrom('k.nobitha666@gmail.com', 'UniValut');
+        $mail->setFrom('no-reply@univault.com', 'UniVault');
         $mail->addAddress($email, $full_name);
 
         $mail->isHTML(true);
-        $mail->Subject = 'Verify your UniValut Account';
+        $mail->Subject = 'Verify your UniVault Account';
 
-        $verification_link = "https://api-9buk.onrender.com/verify_email.php?token=" . $verification_token;
+        $verification_link = "http://localhost/univault/verify_email.php?token=" . $verification_token;
 
 $mail->Body = "
 <html>
@@ -122,14 +127,14 @@ $mail->Body = "
 </head>
 <body>
   <div class='container'>
-    <h1>Welcome to UniValut, $full_name</h1>
-    <p>Thank you for registering with UniValut. To complete your account setup and access all the features, please verify your email address.</p>
+    <h1>Welcome to UniVault, $full_name</h1>
+    <p>Thank you for registering with UniVault. To complete your account setup and access all the features, please verify your email address.</p>
     <p>
       <a href='$verification_link' class='button'>Verify Your Email</a>
     </p>
     <p>If you did not initiate this registration, please disregard this email. No further action is required.</p>
     <div class='footer'>
-      &copy; " . date('Y') . " UniValut. All rights reserved.<br>
+      &copy; " . date('Y') . " UniVault. All rights reserved.<br>
       This is an automated message; please do not reply.
     </div>
   </div>
