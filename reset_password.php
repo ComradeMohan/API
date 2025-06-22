@@ -1,14 +1,6 @@
 <?php
 session_start();
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "univalut_db";
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+includ('db_online.php');
 
 // If form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
