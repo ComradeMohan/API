@@ -14,7 +14,7 @@ include('db_online.php');
 
 
 $expiry_time = date('Y-m-d H:i:s', time() - 3600); // 1 hour ago
-$conn->query("DELETE FROM students_new WHERE verified = 0 AND created_at < '$expiry_time'");
+$conn->query("DELETE FROM students_new1 WHERE verified = 0 AND created_at < '$expiry_time'");
 
 // Read and sanitize input
 $data = json_decode(file_get_contents("php://input"), true);
