@@ -1,6 +1,6 @@
 <?php
 session_start();
-includ('db_online.php');
+include('db_online.php');
 
 // If form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
