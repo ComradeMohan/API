@@ -14,7 +14,7 @@ include('db_online.php');
 
 
 $expiry_time = date('Y-m-d H:i:s', time() - 3600); // 1 hour ago
-$conn->query("DELETE FROM students_new1 WHERE verified = 0 AND created_at < '$expiry_time'");
+$conn->query("DELETE FROM students_new11 WHERE verified = 0 AND created_at < '$expiry_time'");
 
 // Read and sanitize input
 $data = json_decode(file_get_contents("php://input"), true);
@@ -28,7 +28,7 @@ $year_of_study = $conn->real_escape_string($data["year_of_study"]);
 $college = $conn->real_escape_string($data["college"]);
 
 // Check if already registered
-$sql_check = "SELECT * FROM students_new1 WHERE student_number = '$student_number' OR email = '$email'";
+$sql_check = "SELECT * FROM students_new11 WHERE student_number = '$student_number' OR email = '$email'";
 $result = $conn->query($sql_check);
 if ($result->num_rows > 0) {
     echo json_encode(["success" => false, "message" => "Student already exists"]);
@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
 $verification_token = bin2hex(random_bytes(16));
 
 // Insert student
-$sql = "INSERT INTO students_new1 (full_name, student_number, email, password, department, year_of_study, college, verification_token, verified)
+$sql = "INSERT INTO students_new11 (full_name, student_number, email, password, department, year_of_study, college, verification_token, verified)
         VALUES ('$full_name', '$student_number', '$email', '$password', '$department', '$year_of_study', '$college', '$verification_token', 0)";
 
 if ($conn->query($sql) === TRUE) {

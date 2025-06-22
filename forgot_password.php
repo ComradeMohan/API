@@ -31,7 +31,7 @@ if (!$student_number) {
 }
 
 // Fetch user by student_number
-$sql = "SELECT id, email, full_name FROM students_new WHERE student_number = '$student_number' LIMIT 1";
+$sql = "SELECT id, email, full_name FROM students_new1 WHERE student_number = '$student_number' LIMIT 1";
 $result = $conn->query($sql);
 $user = $result->fetch_assoc();
 
@@ -48,7 +48,7 @@ $reset_token = bin2hex(random_bytes(32));
 $expires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
 
 // Store token and expiry
-$sql = "UPDATE students_new SET reset_token = '$reset_token', reset_token_expires = '$expires' WHERE id = {$user['id']}";
+$sql = "UPDATE students_new1 SET reset_token = '$reset_token', reset_token_expires = '$expires' WHERE id = {$user['id']}";
 $conn->query($sql);
 
 // Prepare reset email

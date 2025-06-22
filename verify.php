@@ -12,11 +12,11 @@ if ($conn->connect_error) {
 $email = $_GET['email'];
 $token = $_GET['token'];
 
-$sql = "SELECT * FROM students_new WHERE email = '$email' AND email_token = '$token'";
+$sql = "SELECT * FROM students_new1 WHERE email = '$email' AND email_token = '$token'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    $update = "UPDATE students_new SET is_verified = 1 WHERE email = '$email'";
+    $update = "UPDATE students_new1 SET is_verified = 1 WHERE email = '$email'";
     if ($conn->query($update) === TRUE) {
         echo "✅ Email verified successfully! You can now log in.";
     } else {

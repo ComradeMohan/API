@@ -2,11 +2,11 @@
 include('db_online.php');
 if (isset($_GET['token'])) {
     $token = $conn->real_escape_string($_GET['token']);
-    $sql = "SELECT * FROM students_new1 WHERE verification_token='$token' AND verified=0";
+    $sql = "SELECT * FROM students_new11 WHERE verification_token='$token' AND verified=0";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        $update = $conn->query("UPDATE students_new1 SET verified=1, verification_token=NULL WHERE verification_token='$token'");
+        $update = $conn->query("UPDATE students_new11 SET verified=1, verification_token=NULL WHERE verification_token='$token'");
         if ($update) {
             echo "Email verified successfully! You can now login.";
         } else {

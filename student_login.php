@@ -5,7 +5,7 @@ $student_number = $conn->real_escape_string($student_number);
 $password = $conn->real_escape_string($password);
 
 
-$sql = "SELECT * FROM students_new WHERE student_number = '$student_number' AND password = '$password' LIMIT 1";
+$sql = "SELECT * FROM students_new1 WHERE student_number = '$student_number' AND password = '$password' LIMIT 1";
 $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {

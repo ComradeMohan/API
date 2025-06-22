@@ -13,7 +13,7 @@ if (!isset($_GET["college"])) {
 $college = $conn->real_escape_string($_GET["college"]);
 
 // Fetch students by college name
-$sql = "SELECT full_name, student_number FROM students_new WHERE college = '$college'";
+$sql = "SELECT full_name, student_number FROM students_new1 WHERE college = '$college'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

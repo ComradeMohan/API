@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!$token || !$new_password) {
         $error = "Missing token or new password.";
     } else {
-        $stmt = $conn->prepare("SELECT id, reset_token_expires FROM students_new WHERE reset_token = ?");
+        $stmt = $conn->prepare("SELECT id, reset_token_expires FROM students_new1 WHERE reset_token = ?");
         $stmt->bind_param("s", $token);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $error = "Reset token has expired.";
         } else {
             // ✅ Reset password (NO hashing if you want plain text — not recommended)
-            $stmt = $conn->prepare("UPDATE students_new SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE students_new1 SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?");
             $stmt->bind_param("si", $new_password, $user['id']);
             if ($stmt->execute()) {
                 $success = "Password has been reset successfully!";

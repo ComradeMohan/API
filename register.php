@@ -26,7 +26,7 @@ $college = $conn->real_escape_string($data["college"]);
 // Hash the password before storing it
 
 // Check if the student already exists in the database
-$sql_check = "SELECT * FROM students_new WHERE student_number = '$student_number' OR email = '$email'";
+$sql_check = "SELECT * FROM students_new1 WHERE student_number = '$student_number' OR email = '$email'";
 $result = $conn->query($sql_check);
 
 if ($result->num_rows > 0) {
@@ -36,7 +36,7 @@ if ($result->num_rows > 0) {
 }
 
 // Insert new student record into the database
-$sql = "INSERT INTO students_new (full_name, student_number, email, password, department, year_of_study, college)
+$sql = "INSERT INTO students_new1 (full_name, student_number, email, password, department, year_of_study, college)
         VALUES ('$full_name', '$student_number', '$email', '$password', '$department', '$year_of_study', '$college')";
 
 if ($conn->query($sql) === TRUE) {

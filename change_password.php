@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Map user_type to table name and ID column
     $userMap = [
         'faculty' => ['table' => 'faculty_new', 'id_column' => 'login_id'],
-        'student' => ['table' => 'students_new', 'id_column' => 'student_number'],
+        'student' => ['table' => 'students_new1', 'id_column' => 'student_number'],
         'admin'   => ['table' => 'admins', 'id_column' => 'admin_id']
     ];
 
