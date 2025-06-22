@@ -6,7 +6,7 @@ include('db_online.php');
 $student_id = $_GET['studentID']; // Get student ID from URL
 
 // Fetch student data by ID
-$sql = "SELECT full_name,college,department FROM students_news1 WHERE student_number = '$student_id'";
+$sql = "SELECT full_name,college,department FROM students_new1 WHERE student_number = '$student_id'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
