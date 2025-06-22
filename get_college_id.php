@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $college_name);
     $stmt->execute();
-    $stmt->bind_result($college_id);
+    $stmt->bind_result(id);
 
     if ($stmt->fetch()) {
         echo json_encode(["success" => true, "college_id" => $college_id]);
