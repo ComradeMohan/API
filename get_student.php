@@ -34,7 +34,7 @@ if ($email) {
     $types .= 's';
 }
 
-$sql = "SELECT full_name, student_number, email, department, year_of_study, college FROM students_new WHERE $whereClause";
+$sql = "SELECT full_name, student_number, email, department, year_of_study, college FROM students_new1 WHERE $whereClause";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param($types, ...$params);
 $stmt->execute();
