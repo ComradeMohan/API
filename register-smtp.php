@@ -66,7 +66,7 @@ if ($conn->query($sql) === TRUE) {
         $mail->isHTML(true);
         $mail->Subject = 'Verify your UniVault Account';
 
-        $verification_link = "http://localhost/univault/verify_email.php?token=" . $verification_token;
+        $verification_link = "https://api-9buk.onrender.com/verify_email.php?token=" . $verification_token;
 
 $mail->Body = "
 <html>
